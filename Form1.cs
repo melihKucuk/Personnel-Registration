@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace KayıtListView
+namespace Sinema_Bilet_Satış
 {
     public partial class Form1 : Form
     {
@@ -16,232 +16,85 @@ namespace KayıtListView
         {
             InitializeComponent();
         }
-
-        int count = 0;
-        bool control = false;
-        bool control2 = true;
-        bool control3 = true;
-        int temp;
-
-        private void label5_Click(object sender, EventArgs e)
+        static int count = 0;
+        private static void DisabledCheckBox(ref Panel pnl)
         {
-
-        }
-
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            string tc = "", adsoyad = "", yas = "", mezuniyet = "", cinsiyet = "", dogumyeri = "", telno = "";
-            tc = maskedTextBox1.Text;
-            adsoyad = textBox2.Text;
-
-            int dogumyili = dateTimePicker1.Value.Year;
-            int buyil = DateTime.Now.Year;
-            int yasdeger = buyil - dogumyili;
-            yas = yasdeger.ToString();
-
-            mezuniyet = comboBox1.Text;
-            dogumyeri = textBox3.Text;
-            telno = textBox4.Text;
-
-            if (radioButton1.Checked == true)
-                cinsiyet = radioButton1.Text;
-            else if (radioButton2.Checked == true)
-                cinsiyet = radioButton2.Text;
-
-            string[] bilgiler = { tc, adsoyad, yas, mezuniyet, cinsiyet, dogumyeri, telno };
-            bool kayitkontrol = false;
-            for (int i = 0; i < listView1.Items.Count; i++)
+            foreach (CheckBox item in pnl.Controls)
             {
-                if (listView1.Items[i].SubItems[0].Text == maskedTextBox1.Text)
-                {
-                    kayitkontrol = true;
-                    MessageBox.Show(maskedTextBox1.Text + " Eklemek İstediğiniz Tc Kimlik Numarası Zaten Mevcut.");
-                }
-            }
-            if (kayitkontrol == false)
-            {
-                ListViewItem lst = new ListViewItem(bilgiler);
-                if (tc != "" && adsoyad != "" && yas != "" && mezuniyet != "" && cinsiyet != "" && dogumyeri != "" && telno != "")
-                {
-                    listView1.Items.Add(lst);
-                }
+                if (count == 0)
+                    item.Enabled = false;
                 else
-                    MessageBox.Show("Lütfen Tüm Boşlukları Doldurunuz!!");
+                    item.Enabled = true;
             }
-            kayitsayisiyazdir();
-            
-            
         }
-
-
         private void Form1_Load(object sender, EventArgs e)
         {
-            listView1.Columns.Add("TC KİMLİK NO", 150);
-            listView1.Columns.Add("ADI SOYADI", 200);
-            listView1.Columns.Add("YAŞI", 100);
-            listView1.Columns.Add("MEZUNİYETİ", 150);
-            listView1.Columns.Add("CİNSİYETİ", 125);
-            listView1.Columns.Add("DOĞUM YERİ", 125);
-            listView1.Columns.Add("TELEFON NO", 130);
-            listView1.GridLines = true;
+            comboBox1.Items.Add("Fast And Furious 10");
+            comboBox1.Items.Add("Matrix 4 ");
+            comboBox1.Items.Add("Uncharted");
+            comboBox1.Items.Add("Moonfall");
+            comboBox1.Items.Add("Melih Gökhanı G*tten sikiyor 1080p");
 
-            string[] mezuniyet = { "İlköğretim", "Ortaöğretim", "Ön Lisans", "Lisans", "Yüksek Lisans", "Doktora" };
-            comboBox1.Items.AddRange(mezuniyet);
+            comboBox2.Items.Add("13.00");
+            comboBox2.Items.Add("15.00");
+            comboBox2.Items.Add("17.10");
+            comboBox2.Items.Add("19.45");
+            comboBox2.Items.Add("21.30");
 
-            kayitsayisiyazdir();
+            label4.Text = count.ToString();
 
-            progressBar1.Step = 100;
-            progressBar1.Maximum = 800;
-
-            maskedTextBox1.Mask = "00000000000";
-            maskedTextBox1.Focus();
-            toolTip1.ToolTipIcon = ToolTipIcon.Warning;
-            toolTip1.SetToolTip(this.textBox2, "selam");
-
-
+            DisabledCheckBox(ref panel2);
         }
 
-        private void kayitsayisiyazdir()
+        private static void chairControl(ref Panel panelkoltuk, ref Label lbl, ref NumericUpDown nUp, ref NumericUpDown nUp2)
         {
-            int kayitsayisi = listView1.Items.Count;
-            label8.Text = Convert.ToString(kayitsayisi);
-
-
-
-
-
-        }
-
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            int secilensayisi = listView1.CheckedItems.Count;
-            foreach (ListViewItem secilenkayitbilgisi in listView1.CheckedItems)
+            int temp = 0;
+            foreach (CheckBox item in panelkoltuk.Controls)
             {
-                secilenkayitbilgisi.Remove();
+
+                DisabledCheckBox(ref panelkoltuk);
+
+
+                if (item.Checked && temp == 0)
+                {
+                    temp++;
+                    count--;
+                    lbl.Text = count.ToString();
+                }
+
+                
+
             }
-            MessageBox.Show(secilensayisi.ToString() + " Adet Kayıt Silindi");
-            kayitsayisiyazdir();
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void CumericUpchecked(object sender, EventArgs e)
         {
-            int secilensayisi = listView1.SelectedItems.Count;
-            foreach (ListViewItem secilenkayitbilgisi in listView1.SelectedItems)
+            chairControl(ref panel2, ref label4, ref numericUpDown1, ref numericUpDown2);
+            count = Convert.ToInt32(numericUpDown2.Value) + Convert.ToInt32(numericUpDown1.Value);
+            label4.Text = (numericUpDown1.Value + numericUpDown2.Value).ToString();
+            DisabledCheckBox(ref panel2);
+            if (count >= 55)
             {
-                secilenkayitbilgisi.Remove();
+
+                MessageBox.Show("The maximum capacity of the hall is 54.");
             }
-            MessageBox.Show(secilensayisi.ToString() + " Adet Kayıt Silindi");
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void fullCheckedChange(object sender, EventArgs e)
         {
-            listView1.Items.Clear();
-            kayitsayisiyazdir();
+            chairControl(ref panel2, ref label4, ref numericUpDown1, ref numericUpDown2);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            bool aranankayitkontrolu = false;
-            for (int i = 0; i < listView1.Items.Count; i++)
+            foreach (CheckBox item in panel2.Controls)
             {
-                if (listView1.Items[i].SubItems[0].Text == maskedTextBox1.Text)
+                if (item.Checked)
                 {
-                    aranankayitkontrolu = true;
-                    textBox2.Text = listView1.Items[i].SubItems[1].Text;
-                    comboBox1.Text = listView1.Items[i].SubItems[3].Text;
-                    if (listView1.Items[i].SubItems[4].Text == "Bay")
-                    {
-                        radioButton2.Checked = true;
-                    }
-                    else if (listView1.Items[i].SubItems[4].Text == "Bayan")
-                    {
-                        radioButton1.Checked = true;
-                    }
-
-                    textBox3.Text = listView1.Items[i].SubItems[5].Text;
-                    textBox4.Text = listView1.Items[i].SubItems[6].Text;
-                    textBox2.Enabled = false;
-                    dateTimePicker1.Enabled = false;
-                    comboBox1.Enabled = false;
-                    groupBox1.Enabled = false;
-                    textBox3.Enabled = false;
-                    textBox4.Enabled = false;
+                    item.BackColor = Color.Red;
+                    item.Enabled = false;
                 }
             }
-            if (aranankayitkontrolu == false)
-            {
-                MessageBox.Show(maskedTextBox1.Text + " TC Kimlik Numaralı Kayıt Bulunamadı");
-            }
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            textBox2.Enabled = true;
-            dateTimePicker1.Enabled = true;
-            comboBox1.Enabled = true;
-            groupBox1.Enabled = true;
-            textBox3.Enabled = true;
-            textBox4.Enabled = true;
-        }
-
-
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-            if (textBox2.Text == string.Empty)
-            {
-                progressBar1.Value -= 100;
-                control2 = true;
-            }
-            else if (textBox2.Text != string.Empty && control2)
-            {
-                progressBar1.Value += 100;
-                control2 = false;
-            }
-            
-        }
-
-        private void maskedTextBox1_TextChanged(object sender, EventArgs e)
-        {
-
-            if (maskedTextBox1.Text.Length == 11)
-            {
-                progressBar1.Value += 100;
-                control = true;
-            }
-            else if (maskedTextBox1.Text.Length < 11 && control)
-            {
-                progressBar1.Value -= 100;
-                control = false;
-            }
-            
-        }
-
-        private void maskedTextBox1_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
-        {
-
         }
     }
 }
-
